@@ -5,13 +5,18 @@ import connectDB from './db/connect.js'
 
 import errorHandlerMiddleware from './middleware/errorHandler.js'
 import notFoundMiddleware from './middleware/notFound.js'
+import authRouter from './routes/authRoutes.js'       
 
 const app = express()
+
 dotenv.config()
+app.use(express.json())
 
 app.get('/', (req, res) => {
   res.send('Server is runnig!')
 })
+
+app.use('/api/v1/auth', authRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
