@@ -1,6 +1,16 @@
 import React from 'react'
+import { useAppContext } from '../context/appContext.js'
+import { Link } from 'react-router-dom';
+
+
 
 const Homepage = () => {
+  const {  logoutUser } = useAppContext()
+
+  const logoutUsere = (e) => {
+    logoutUser();
+  
+}
   /*
   const fetchData = async ()=>{
     try {
@@ -19,7 +29,13 @@ const Homepage = () => {
 
 
   return (
-    <div>Homepage</div>
+    <div>Homepage
+
+<Link to='/register' className='btn-link' onClick={logoutUsere}>LOGOUT</Link>
+<Link to='/companies' className='btn-link'>Companies</Link>
+<Link to='/products' className='btn-link'>Products</Link>
+
+    </div>
   )
 }
 

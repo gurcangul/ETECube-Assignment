@@ -1,7 +1,7 @@
 import React, { useReducer, useContext } from 'react'
 import reducer from '../context/reducer'
 import { CLEAR_ALERT, DISPLAY_ALERT, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR,
-  REGISTER_USER_BEGIN, REGISTER_USER_ERROR, REGISTER_USER_SUCCESS } from './actions'
+  REGISTER_USER_BEGIN, REGISTER_USER_ERROR, REGISTER_USER_SUCCESS,LOGOUT_USER } from './actions'
 import axios from 'axios'
 
 const token = localStorage.getItem('token')
@@ -41,11 +41,11 @@ const addUserToLocalStorage=({user,token})=>{
   localStorage.setItem('user', JSON.stringify(user))
   localStorage.setItem('token', token)
 }
-/*
-const removeUserFromLocalStorage=({user,token})=>{
+
+const removeUserFromLocalStorage=()=>{
   localStorage.removeItem('user')
   localStorage.removeItem('token')
-}*/
+}
 
 //REGISTER
   const  registerUser = async (currentUser)=>{
@@ -88,10 +88,17 @@ const removeUserFromLocalStorage=({user,token})=>{
     }
     console.log(currentUser);
   }
+
+//LOGOUT
+const logoutUser = async()=>{
+  dispatch({type:LOGOUT_USER})
+  removeUserFromLocalStorage()
+}
+
   return (
     <AppContext.Provider
       value={{
-        ...state, displayAlert, registerUser, loginUser
+        ...state, displayAlert, registerUser, loginUser, logoutUser
       }}>{children}
     </AppContext.Provider>
   )

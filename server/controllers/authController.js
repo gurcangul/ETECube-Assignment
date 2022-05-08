@@ -62,7 +62,7 @@ const updateUser = async (req, res) => {
   const { email, name, lastName } = req.body
 
   if (!email || !name || !lastName ) {
-    throw new BadRequestError('Please provide all valuess')
+    throw new BadRequestError('Please provide all values')
   }
   const user = await User.findOne({ _id: req.user.userId })
 
