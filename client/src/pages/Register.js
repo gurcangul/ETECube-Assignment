@@ -1,7 +1,9 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Form from '../components/Form'
 import { useAppContext } from '../context/appContext.js'
 import Alert from '../components/Alert'
+import logo from '../assets/logo.png'
+import { useNavigate } from 'react-router-dom'
 
 const initialState = {
   name: '',
@@ -12,7 +14,9 @@ const initialState = {
 
 const Register=()=> {
   const [values, setValues] = useState(initialState)
-  const { showAlert, displayAlert, registerUser, isLoading } = useAppContext()
+  const navigate = useNavigate()
+
+  const { user, showAlert, displayAlert, isLoading, registerUser, loginUser } = useAppContext()
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember })
@@ -26,24 +30,34 @@ const Register=()=> {
     e.preventDefault()  
     const {name, email, password, isMember}=values
     if(!email||!password||(!isMember&&!name)){
-      displayAlert()
+     displayAlert()
       return
     }
     const currentUser = {name, email, password}
 
     if(isMember){
-      console.log('Member');
-    }else registerUser(currentUser)
-
-    console.log(values);
+      loginUser(currentUser);
+    }else {
+      registerUser(currentUser)
+    }
   }
+
+useEffect(()=>{
+  if(user){
+    setTimeout(()=>{
+      navigate('/')
+    },3000)
+  }
+},[user, navigate])
 
   return (
     <div className='register'>
+        <header>
+          <img src={logo} className='logo' alt='' width={'180px'}/>
+        </header>
       <form className='form' onSubmit={onSubmit}>
-      <h3>{values.isMember ? 'Login' : 'Register'}</h3>
-
-        {showAlert&&<Alert/> }
+        <h3>{values.isMember ? 'Login' : 'Register'}</h3>
+        {showAlert && <Alert />}
 
         {!values.isMember&&(
         <Form
@@ -59,17 +73,16 @@ const Register=()=> {
           value={values.email}
           handleChange={handleChange}        
           />
-        {/* password input */}
         <Form
           type='password' 
           name='password'
           value={values.password}
           handleChange={handleChange}        
           />
-        <button type='submit' className='btn btn-block'>Submit</button>
+        <button type='submit' className='btn-submit' disabled={isLoading}>Submit</button>
         <p>
         {values.isMember?'Not a member yet?':'Already a member?'}
-        <button type='submit' onClick={toggleMember} className='member-btn' disabled={isLoading}>
+        <button type='submit' onClick={toggleMember} className='btn-register' disabled={isLoading}>
         {values.isMember?'Register':'login'}</button>
         </p>
       </form>

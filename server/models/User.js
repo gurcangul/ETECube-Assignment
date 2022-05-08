@@ -45,4 +45,10 @@ UserSchema.methods.createJWT = function () {
     expiresIn: process.env.JWT_LIFETIME,
   })
 }
+
+UserSchema.methods.comparePassword = async function(candidatePass){
+  const isSame = await bcrypt.compare(candidatePass, this.password)
+  return isSame
+}
+
 export default mongoose.model('User', UserSchema)
