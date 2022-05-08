@@ -8,6 +8,8 @@ export const initialState = {
   showAlert: false,
   alertText: '',
   alertType: '',
+  user:null,
+  token:null,
 }
 
 const AppContext = React.createContext()
@@ -21,6 +23,7 @@ const AppProvider = ({ children }) => {
         })
         clearAlert()
   }
+
   const clearAlert= () =>{
       setTimeout(()=>{
           dispatch({
@@ -29,13 +32,15 @@ const AppProvider = ({ children }) => {
       },3000)
   }
 
+  const  registerUser = async (currentUser)=>{
+    console.log(currentUser);
+
+}
   return (
     <AppContext.Provider
       value={{
-        ...state, displayAlert
-      }}
-    >
-      {children}
+        ...state, displayAlert, registerUser
+      }}>{children}
     </AppContext.Provider>
   )
 }

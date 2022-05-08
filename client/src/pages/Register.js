@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import Form from '../components/Form'
 import { useAppContext } from '../context/appContext.js'
+import Alert from '../components/Alert'
 
 const initialState = {
   name: '',
@@ -11,13 +12,12 @@ const initialState = {
 
 const Register=()=> {
   const [values, setValues] = useState(initialState)
-  const { showAlert, displayAlert } = useAppContext()
+  const { showAlert, displayAlert, registerUser, isLoading } = useAppContext()
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember })
   }
   
-  // global context and useNavigate later
   const handleChange = (e) => {
     setValues({...values, [e.target.name]:e.target.value})  
   }
@@ -29,6 +29,12 @@ const Register=()=> {
       displayAlert()
       return
     }
+    const currentUser = {name, email, password}
+
+    if(isMember){
+      console.log('Member');
+    }else registerUser(currentUser)
+
     console.log(values);
   }
 
@@ -36,9 +42,9 @@ const Register=()=> {
     <div className='register'>
       <form className='form' onSubmit={onSubmit}>
       <h3>{values.isMember ? 'Login' : 'Register'}</h3>
-        {showAlert&&<div className='alert alert-danger'>alert goes here</div>}
 
-        {/* name input */}
+        {showAlert&&<Alert/> }
+
         {!values.isMember&&(
         <Form
           type='text' 
@@ -47,7 +53,6 @@ const Register=()=> {
           handleChange={handleChange}        
         />
         )}
-        {/* email input */}
         <Form
           type='email' 
           name='email'
@@ -64,7 +69,7 @@ const Register=()=> {
         <button type='submit' className='btn btn-block'>Submit</button>
         <p>
         {values.isMember?'Not a member yet?':'Already a member?'}
-        <button type='submit' onClick={toggleMember} className='member-btn'>
+        <button type='submit' onClick={toggleMember} className='member-btn' disabled={isLoading}>
         {values.isMember?'Register':'login'}</button>
         </p>
       </form>
