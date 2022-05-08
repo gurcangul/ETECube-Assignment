@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Companies from "./pages/Companies";
 import Products from "./pages/Products";
 import ProtectedRoute from './pages/ProtectedRoute.js'
+import Home from "./pages/Home";
 
 function App() {
   return (
@@ -16,9 +17,11 @@ function App() {
           </ProtectedRoute>
           }>
           <Route path="/homepage" element={<Homepage /> } />
+          <Route path="/home" element={<Home /> } />
           <Route path="/companies" element={<Companies/>} />
           <Route path="/products" element={<Products/>} />
-          </Route>
+          </Route>          
+
           <Route path="/register" element={<Register/>} />
           <Route path="/landing" element={<LandingPage/>} />
           <Route path="*" element={<div>Error Page</div>}/>
