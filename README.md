@@ -1,4 +1,4 @@
-# ETECube-Assignment
+# ETECube Assignment
 <br>
 in the project folder:
 <br>
