@@ -17,7 +17,7 @@ function App() {
           </ProtectedRoute>
           }>
           <Route path="/homepage" element={<Homepage /> } />
-          <Route path="/home" element={<Home /> } />
+          <Route index element={<Home /> } />
           <Route path="/companies" element={<Companies/>} />
           <Route path="/products" element={<Products/>} />
           </Route>          

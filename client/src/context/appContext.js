@@ -1,7 +1,9 @@
 import React, { useReducer, useContext } from 'react'
 import reducer from '../context/reducer'
 import { CLEAR_ALERT, DISPLAY_ALERT, LOGIN_USER_BEGIN, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR,
-  REGISTER_USER_BEGIN, REGISTER_USER_ERROR, REGISTER_USER_SUCCESS,LOGOUT_USER } from './actions'
+  REGISTER_USER_BEGIN, REGISTER_USER_ERROR, REGISTER_USER_SUCCESS,LOGOUT_USER,
+  CREATE_COMPANY_BEGIN, CREATE_COMPANY_SUCCESS, CREATE_COMPANY_ERROR
+} from './actions'
 import axios from 'axios'
 
 const token = localStorage.getItem('token')
@@ -14,6 +16,11 @@ export const initialState = {
   alertType: '',
   user: user ? JSON.parse(user) : null,
   token:token,
+  productName:'',
+  productCategory:'',
+  productAmount:'',
+  amountUnit:'',
+  company:'',
 }
 
 const AppContext = React.createContext()
@@ -86,7 +93,6 @@ const removeUserFromLocalStorage=()=>{
         payload:{msg:error.response.data.msg}
       })
     }
-    console.log(currentUser);
   }
 
 //LOGOUT
@@ -95,10 +101,51 @@ const logoutUser = async()=>{
   removeUserFromLocalStorage()
 }
 
+
+//CREATE COMPANY
+const  createCompany = async (currentUser)=>{
+  dispatch({type: CREATE_COMPANY_BEGIN})
+  try {
+    const response = await axios.post('/api/v1/auth/companies', currentUser)
+    const { user, token} = response.data
+    dispatch({
+      type:REGISTER_USER_SUCCESS, 
+      payload:{user, token}
+    })
+    addUserToLocalStorage({user,token})
+  }catch (error) {
+    dispatch({
+      type:REGISTER_USER_ERROR, 
+      payload:{msg:error.response.data.msg}
+    })
+  }
+  clearAlert();
+}
+
+//CREATE PRODUCT
+const  createProduct = async (currentUser)=>{
+  dispatch({type: CREATE_COMPANY_BEGIN})
+  try {
+    const response = await axios.post('/api/v1/auth/companies', currentUser)
+    const { user, token} = response.data
+    dispatch({
+      type:CREATE_COMPANY_SUCCESS, 
+      payload:{user, token}
+    })
+    addUserToLocalStorage({user,token})
+  }catch (error) {
+    dispatch({
+      type:CREATE_COMPANY_ERROR, 
+      payload:{msg:error.response.data.msg}
+    })
+  }
+  clearAlert();
+}
+
   return (
     <AppContext.Provider
       value={{
-        ...state, displayAlert, registerUser, loginUser, logoutUser
+        ...state, displayAlert, registerUser, loginUser, logoutUser, createCompany, createProduct
       }}>{children}
     </AppContext.Provider>
   )

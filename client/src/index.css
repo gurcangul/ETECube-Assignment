@@ -59,7 +59,7 @@ body {
     border: 1px solid #bcccdc;;
 }
 
-.register .btn-submit{
+.btn-submit{
   font-family: inherit;
   font-size: 100%;
   margin-top: 1rem;
@@ -88,7 +88,7 @@ body {
   text-align: center;
   }
 
-.register .btn-register{
+.btn-register{
   background: transparent;
   border: transparent;
   color: #2cb1bc;
@@ -146,7 +146,8 @@ body {
 }
 .content{
   text-align: center;
-  width: 80%;  display: block;
+  width: 80%;  
+  display: block;
   float: left;
   padding: 40px;
 
@@ -164,4 +165,22 @@ body {
 .header-navi{
   padding: 3px;
   border-bottom: #214e44 solid ;
+}
+
+.content h4{
+  font-size: 25px;
+}
+
+.alert-false{
+  color: red;
+  text-align: center; 
+  font-weight: bold;
+  letter-spacing:2px;
+}
+
+.alert-success{
+  color: green;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing:2px;
 }
